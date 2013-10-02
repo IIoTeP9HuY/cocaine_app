@@ -9,6 +9,7 @@ from cocaine.logging import Logger
 
 @http
 def main(request, response):
+    response.write_head(200, [("Content-Type", "plain/text")])
     response.write("Hello, world!")
     response.close()
 
