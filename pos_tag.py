@@ -120,13 +120,24 @@ def main(request, response):
     response.write_head(200, [("Content-Type", "plain/text")])
     # request = yield request.read()
     # message = request.request['message']
-    message = "i love birds"
+    # message = "i love birds"
+    app.run()
 
-    model = prepareModel()
-    tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
+    # model = prepareModel()
+    # tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
 
-    response.write(str(message) + " " + str(tagging))
+    # response.write(str(message) + " " + str(tagging))
     response.close()
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+# if __name__ == '__main__':
+#     app.run()
 
 
 W = Worker()
