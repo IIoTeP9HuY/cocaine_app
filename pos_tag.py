@@ -1,11 +1,5 @@
 #!/usr/bin/env python
 
-import msgpack
-from cocaine.decorators import http
-
-from cocaine.worker import Worker
-from cocaine.logging import Logger
-
 def prepareModel():
   '''Reading data'''
   data = open('brown_bigrams_tagged.txt', 'r')
@@ -43,16 +37,18 @@ def prepareModel():
 
   '''Filling probabilities info'''
   for key in tagPairFrequency.keys():
-      tagPairProbability[key] = (tagPairFrequency.get(key, 0)) / (tagFrequency.get(key.split()[0], 0))
+      tagPairProbability[key] = float(tagPairFrequency.get(key, 0)) / (tagFrequency.get(key.split()[0], 0))
       
   for key in wordTagFrequency.keys():
-      wordTagProbability[key] = (wordTagFrequency[key] + 1) / (tagFrequency[key.split()[1]] + V)
+      wordTagProbability[key] = float(wordTagFrequency[key] + 1) / (tagFrequency[key.split()[1]] + V)
 
   return {"tagPair": tagPairProbability, "wordTag": wordTagProbability, "tags": tags}
 
+# log = Logger()
 
 '''Viterbi algorithm'''
 def viterbi(O, tagPairProbability, wordTagProbability, tags):
+  # log.debug('Tags: \'{0}\''.format(str(tags)))
   statesNumber = len(tags)
   stepsNumber = len(O) + 1
   stateProbability = []
@@ -115,6 +111,13 @@ def test():
     tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
     print(tagging)
 
+
+import msgpack
+from cocaine.decorators import http
+
+from cocaine.worker import Worker
+from cocaine.logging import Logger
+
 @http
 def main(request, response):
     # response.write_head(200, [("Content-Type", "plain/text")])
@@ -158,7 +161,6 @@ def main(request, response):
     # response.write(str(message) + " " + str(tagging))
     response.write(html)
     response.close()
-
 
 
 W = Worker()
