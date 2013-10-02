@@ -120,24 +120,35 @@ def main(request, response):
     # response.write_head(200, [("Content-Type", "plain/text")])
     response.write_head(200, [("Content-Type", "text/html")])
 
+    request = yield request.read()
+    message = request.request.get('message', None)
+
+    tagging = []
+    if (message == None):
+      message = ""
+    else:
+      model = prepareModel()
+      tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
+
     html = """
       <html>
       <body>
-      <h1>This is test webpage!</h1>
+
+      <h1>Part of the speech tagging!</h1>
+      <h2>%s %s!</h2>
+
       </body>
       </html>
-    """
-    # request = yield request.read()
-    # message = request.request['message']
+    """ % (str(tagging), message)
     # message = "i love birds"
-    # app.run()
-
-    # model = prepareModel()
-    # tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
 
     # response.write(str(message) + " " + str(tagging))
     response.write(html)
     response.close()
+      # <form action="window.location.replace("http://stackoverflow.com/?message=sentence")" method="get">
+      #   Sentence: <input type="text" name="sentence"><br>
+      #   <input type="submit" value="Submit">
+      # </form>
 
 
 W = Worker()
