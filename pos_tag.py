@@ -107,12 +107,13 @@ def posTagPhrase(phrase):
 
 @http
 def main():
-    model = prepareModel()
+    response.write_head(200, [("Content-Type", "plain/text")])
     message = yield request.read()
-    
+
+    model = prepareModel()
     tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
 
-    response.write(tagging)
+    response.write(str(tagging))
     response.close()
 
 W = Worker()
