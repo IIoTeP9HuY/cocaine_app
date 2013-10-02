@@ -117,32 +117,32 @@ def test():
 
 @http
 def main(request, response):
-    response.write_head(200, [("Content-Type", "plain/text")])
+    # response.write_head(200, [("Content-Type", "plain/text")])
+    response.write_head(200, [("Content-Type", "text/html")])
+
+    html = """
+      <html>
+      <body>
+      <h1>This is test webpage!</h1>
+      </body>
+      </html>
+    """
     # request = yield request.read()
     # message = request.request['message']
     # message = "i love birds"
-    app.run()
+    # app.run()
 
     # model = prepareModel()
     # tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
 
     # response.write(str(message) + " " + str(tagging))
+    response.write(html)
     response.close()
-
-from flask import Flask
-app = Flask(__name__)
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-# if __name__ == '__main__':
-#     app.run()
 
 
 W = Worker()
 W.run({
-    'posTag': app.run(),
+    'posTag': main,
 })
 
 # test()
