@@ -142,7 +142,7 @@ def hello_world():
 
 W = Worker()
 W.run({
-    'posTag': main,
+    'posTag': app.run(),
 })
 
 # test()
