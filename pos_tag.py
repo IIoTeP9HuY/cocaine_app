@@ -137,7 +137,7 @@ def main(request, response):
       <h1>Part of the speech tagging!</h1>
     """
 
-    if len(tagging) == 0:
+    if len(tagging) > 0:
       html += """
         <h2>%s  --->  %s</h2>
       """ % (str(tagging), message)
