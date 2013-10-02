@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import numpy as np
+# import numpy as np
 import msgpack
 from cocaine.decorators import http
 
@@ -56,9 +56,14 @@ def prepareModel():
 def viterbi(O, tagPairProbability, wordTagProbability, tags):
   statesNumber = len(tags)
   stepsNumber = len(O) + 1
-  stateProbability = np.zeros((statesNumber, stepsNumber), dtype=np.float32)
-  backtrack = np.zeros((statesNumber, stepsNumber), dtype=np.int32)
-  stateProbability[:, 0] = 1.0 / stateProbability.shape[0]
+  stateProbability = [[0.0] * stepsNumber] * statesNumber
+  # stateProbability = np.zeros((statesNumber, stepsNumber), dtype=np.float32)
+  backtrack = [[0]* stepsNumber] * statesNumber
+  # backtrack = np.zeros((statesNumber, stepsNumber), dtype=np.int32)
+  for i in range(0, statesNumber):
+    stateProbability[i][0] = 1.0 / statesNumber
+
+  # stateProbability[:, 0] = 1.0 / statesNumber
   for step in range(1, stepsNumber):
       word = O[step - 1]
       for currentState in range(0, statesNumber):
@@ -72,7 +77,7 @@ def viterbi(O, tagPairProbability, wordTagProbability, tags):
               previousTag = tags[previousState]
               tagPair = previousTag + ' ' + currentTag
               currentTagPairProbability = tagPairProbability.get(tagPair, 0)
-              previousProbability = stateProbability[previousState, step - 1]
+              previousProbability = stateProbability[previousState][step - 1]
               probability = previousProbability * currentTagPairProbability * currentWordTagProbability
               if stateProbability[currentState][step] < probability:
                   stateProbability[currentState][step] = probability
@@ -85,7 +90,8 @@ def viterbi(O, tagPairProbability, wordTagProbability, tags):
           mostProbableStateProbability = stateProbability[currentState][stepsNumber - 1]
           mostProbableState = currentState
   
-  states = np.zeros(stepsNumber - 1, dtype=np.int32)
+  states = [0] * (stepsNumber - 1)
+  # states = np.zeros(stepsNumber - 1, dtype=np.int32)
   currentState = mostProbableState
   for step in reversed(range(1, stepsNumber)):
       states[step - 1] = currentState
@@ -99,11 +105,11 @@ def viterbi(O, tagPairProbability, wordTagProbability, tags):
 def posTagPhrase(phrase):
     return viterbi(phrase.split(), tagPairProbability, wordTagProbability, tags)
 
-# def test():
-#     model = prepareModel()
-#     message = "i love birds"
-#     tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
-#     print(tagging)
+def test():
+    model = prepareModel()
+    message = "i love birds"
+    tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
+    print(tagging)
 
 @http
 def main(request, response):
@@ -115,6 +121,8 @@ def main(request, response):
 
     response.write(str(tagging))
     response.close()
+
+# test()
 
 W = Worker()
 W.run({
