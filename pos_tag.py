@@ -142,8 +142,14 @@ def main(request, response):
         <h2>%s  --->  %s</h2>
       """ % (str(tagging), message)
     else:
+      # html += """
+      #   <h2>Put /?message= into the url</h2>
+      # """
       html += """
-        <h2>Put /?=message into the url</h2>
+      <form name="submitform" method="get" onSubmit="window.location.replace('/?message=' + document.submitform['sentence'])">
+        Sentence: <input type="text" name="sentence"><br>
+        <input type="submit" value="Submit">
+      </form>
       """
 
     html += """
@@ -155,10 +161,8 @@ def main(request, response):
     # response.write(str(message) + " " + str(tagging))
     response.write(html)
     response.close()
-      # <form action="window.location.replace("http://stackoverflow.com/?message=sentence")" method="get">
-      #   Sentence: <input type="text" name="sentence"><br>
-      #   <input type="submit" value="Submit">
-      # </form>
+    document.
+
 
 
 W = Worker()
