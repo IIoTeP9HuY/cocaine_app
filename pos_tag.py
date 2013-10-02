@@ -140,16 +140,16 @@ def main(request, response):
     if len(tagging) == 0:
       html += """
         <h2>%s  --->  %s</h2>
-      """
+      """ % (str(tagging), message)
     else:
       html += """
-        <h2>Put /?=message in the header to tag it</h2>
+        <h2>Put /?=message into the url</h2>
       """
 
     html += """
       </body>
       </html>
-    """ % (str(tagging), message)
+    """
     # message = "i love birds"
 
     # response.write(str(message) + " " + str(tagging))
