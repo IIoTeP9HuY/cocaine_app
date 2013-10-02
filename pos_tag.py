@@ -106,7 +106,7 @@ def posTagPhrase(phrase):
 #     print(tagging)
 
 @http
-def main():
+def main(request, response):
     response.write_head(200, [("Content-Type", "plain/text")])
     message = yield request.read()
 
