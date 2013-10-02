@@ -148,7 +148,7 @@ def main(request, response):
     html += """
       <form name="submitform" method="get" onSubmit="window.location.replace('/?message=' + document.submitform['sentence'])">
         Sentence: <input type="text" name="message"><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Tag!">
       </form>
     """
 
