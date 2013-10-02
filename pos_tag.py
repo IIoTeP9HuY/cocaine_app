@@ -161,7 +161,6 @@ def main(request, response):
     # response.write(str(message) + " " + str(tagging))
     response.write(html)
     response.close()
-    document.
 
 
 
