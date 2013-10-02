@@ -153,6 +153,7 @@ def main(request, response):
     """
 
     html += """
+      Please, send your suggestions to: kashin.andrej@gmail.com
       </body>
       </html>
     """
