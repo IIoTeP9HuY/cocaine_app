@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# import numpy as np
 import msgpack
 from cocaine.decorators import http
 
@@ -119,19 +118,20 @@ def test():
 @http
 def main(request, response):
     response.write_head(200, [("Content-Type", "plain/text")])
-    request = yield request.read()
-    message = request.request['message']
-    # message = "i love birds"
+    # request = yield request.read()
+    # message = request.request['message']
+    message = "i love birds"
 
     model = prepareModel()
     tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
 
-    response.write(str(tagging))
+    response.write(str(message) + " " + str(tagging))
     response.close()
 
-# test()
 
 W = Worker()
 W.run({
     'posTag': main,
 })
+
+# test()
