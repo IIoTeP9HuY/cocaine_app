@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import numpy as np
+# import numpy as np
 import msgpack
 from cocaine.decorators import http
 
