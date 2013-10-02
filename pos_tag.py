@@ -114,7 +114,8 @@ def test():
 @http
 def main(request, response):
     response.write_head(200, [("Content-Type", "plain/text")])
-    message = yield request.read()
+    # message = yield request.read()
+    message = "i love birds"
 
     model = prepareModel()
     tagging = viterbi(message.split(), model["tagPair"], model["wordTag"], model["tags"]);
