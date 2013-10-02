@@ -140,7 +140,7 @@ def main(request, response):
     if len(tagging) > 0:
       html += """
         <h2>%s  --->  %s</h2>
-      """ % (str(tagging), message)
+      """ % (str(message.split()), str(tagging))
 
     html += """
       <form name="submitform" method="get" onSubmit="window.location.replace('/?message=' + document.submitform['sentence'])">
