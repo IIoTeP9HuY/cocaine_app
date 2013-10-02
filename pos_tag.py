@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# import numpy as np
+import numpy as np
 import msgpack
 from cocaine.decorators import http
 
@@ -63,7 +63,7 @@ def viterbi(O, tagPairProbability, wordTagProbability, tags):
   # stateProbability = np.zeros((statesNumber, stepsNumber), dtype=np.float32)
   backtrack = []
   for i in range(0, statesNumber):
-    stateProbability.append([] * stepsNumber)
+    backtrack.append([0] * stepsNumber)
   # backtrack = np.zeros((statesNumber, stepsNumber), dtype=np.int32)
   for i in range(0, statesNumber):
     stateProbability[i][0] = 1.0 / statesNumber
