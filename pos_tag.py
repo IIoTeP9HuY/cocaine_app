@@ -56,9 +56,14 @@ def prepareModel():
 def viterbi(O, tagPairProbability, wordTagProbability, tags):
   statesNumber = len(tags)
   stepsNumber = len(O) + 1
-  stateProbability = [[0.0] * stepsNumber] * statesNumber
+  stateProbability = []
+  for i in range(0, statesNumber):
+    stateProbability.append([0.0] * stepsNumber)
+
   # stateProbability = np.zeros((statesNumber, stepsNumber), dtype=np.float32)
-  backtrack = [[0]* stepsNumber] * statesNumber
+  backtrack = []
+  for i in range(0, statesNumber):
+    stateProbability.append([] * stepsNumber)
   # backtrack = np.zeros((statesNumber, stepsNumber), dtype=np.int32)
   for i in range(0, statesNumber):
     stateProbability[i][0] = 1.0 / statesNumber
